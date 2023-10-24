@@ -46,6 +46,10 @@ func (p *profile) Get() (*Adopter, error) {
 	return &user, nil
 }
 
+func (p *profile) Update(adopter *Adopter) error {
+	return nil
+}
+
 func New(db store.Store, logger *logrus.Logger, address common.Address) Service {
 	return &profile{
 		db:      db,
@@ -64,6 +68,7 @@ type Adopter struct {
 	Type    Type    `json:"type"`
 	Wallet  string  `json:"wallet"`
 	PubKey  string  `json:"pubKey"`
+	Work    Work    `json:"work"`
 }
 
 type Address struct {
@@ -82,7 +87,16 @@ type Type struct {
 	Horoscope string `json:"horoscope,omitempty"`
 }
 
+type Work struct {
+	Role       string   `json:"role,omitempty"`
+	Experience string   `json:"experience,omitempty"`
+	Company    string   `json:"company,omitempty"`
+	Type       string   `json:"type,omitempty"`
+	Skills     []string `json:"skills,omitempty"`
+}
+
 type Service interface {
 	Create(user *Adopter) error
 	Get() (*Adopter, error)
+	Update(adopter *Adopter) error
 }
